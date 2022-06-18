@@ -25,12 +25,14 @@ func New(DB IDb) (queue *Queue, err error) {
 	queue = &Queue{DB: DB}
 
 	//	restore
-	jobs, err := DB.Restore()
-	if err != nil {
-		return nil, err
-	}
+	if DB != nil {
+		jobs, err := DB.Restore()
+		if err != nil {
+			return nil, err
+		}
 
-	queue.Jobs = jobs
+		queue.Jobs = jobs
+	}
 
 	// create backup
 	t := time.NewTicker(backupTimer)
