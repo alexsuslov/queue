@@ -52,6 +52,7 @@ func (Queue Queue) ActiveJobs() (c int) {
 			c++
 		}
 	}
+	return
 }
 
 func (Queue *Queue) Append(job *Job) (idx int) {
