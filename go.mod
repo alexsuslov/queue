@@ -1,4 +1,4 @@
-module github/alexsuslov/queue
+module github.com/alexsuslov/queue
 
 go 1.18
 
