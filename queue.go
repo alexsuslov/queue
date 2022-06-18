@@ -85,3 +85,7 @@ func (Queue Queue) Store() error {
 
 	return nil
 }
+
+func (Queue Queue) Clean() error {
+
+}

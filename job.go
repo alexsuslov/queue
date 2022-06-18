@@ -10,6 +10,7 @@ type Job struct {
 	ID        primitive.ObjectID `json:"_id",bson:"_id"`
 	CreatedON time.Time          `json:"created_on"`
 	Cancel    bool               `json:"cancel"`
+	Retry     int                `json:"retry"`
 	Value     interface{}        `json:"value"`
 }
 
@@ -18,6 +19,7 @@ func NewJob(v interface{}) *Job {
 		primitive.NewObjectID(),
 		time.Now(),
 		false,
+		0,
 		v,
 	}
 
