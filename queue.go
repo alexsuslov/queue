@@ -46,6 +46,14 @@ func New(DB IDb) (queue *Queue, err error) {
 	return queue, nil
 }
 
+func (Queue Queue) ActiveJobs() (c int) {
+	for _, job := range Queue.Jobs {
+		if !job.Cancel {
+			c++
+		}
+	}
+}
+
 func (Queue *Queue) Append(job *Job) (idx int) {
 	Queue.Lock()
 	Queue.Jobs = append(Queue.Jobs, job)
