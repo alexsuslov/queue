@@ -12,6 +12,7 @@ type Job struct {
 	Cancel    bool               `json:"cancel"`
 	Retry     int                `json:"retry"`
 	Value     interface{}        `json:"value"`
+	Err       error              `json:"-"`
 }
 
 func NewJob(v interface{}) *Job {
@@ -21,6 +22,7 @@ func NewJob(v interface{}) *Job {
 		false,
 		0,
 		v,
+		nil,
 	}
 
 }
