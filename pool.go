@@ -20,17 +20,26 @@
 
 package queue
 
-import "sync"
+import (
+	"fmt"
+	"sync"
+)
 
 type Pool struct {
 	sync.Mutex
 	Items []interface{}
+	store IStore
 }
 
-func (Pool *Pool) Push(item interface{}) {
+type IStore interface {
+	Push(value interface{}) (err error)
+	Pop() (interface{}, error)
+}
+
+func (Pool *Pool) Push(value interface{}) {
 	Pool.Lock()
 	defer Pool.Unlock()
-	Pool.Items = append(Pool.Items, item)
+	Pool.Items = append(Pool.Items, value)
 }
 
 func (Pool *Pool) Pop() interface{} {
@@ -41,7 +50,27 @@ func (Pool *Pool) Pop() interface{} {
 	Pool.Lock()
 	defer Pool.Unlock()
 
-	item := Pool.Items[0]
+	value := Pool.Items[0]
 	Pool.Items = Pool.Items[1:]
-	return item
+	return value
+}
+
+// Store
+
+func (Pool *Pool) SetStore(store IStore) {
+	Pool.store = store
+}
+
+func (Pool *Pool) PushS(item interface{}) error {
+	if Pool.store != nil {
+		return fmt.Errorf("no store")
+	}
+	return Pool.store.Push(item)
+}
+
+func (Pool *Pool) PopS() (interface{}, error) {
+	if Pool.store != nil {
+		return nil, fmt.Errorf("no store")
+	}
+	return Pool.store.Pop()
 }
