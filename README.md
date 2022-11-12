@@ -14,7 +14,7 @@ go func(p *queue.Pool, d duplicate.Avoid) {
       ctx, fn := context.WithCancel(context.Background())
       d.Push(key,fn)
       if err:=Post(ctx, key); err!=nil{
-        if err1:=ErrorTicket(key, err); err1!=nil{
+        if err1:=Comment(key, err); err1!=nil{
           Notify(service, key, err, err1)
         }
       }
